@@ -1,0 +1,12 @@
+We currently only support login via Facebook.<br> 
+
+<%- if devise_mapping.omniauthable? %>
+  <div class="login">
+  <%- resource_class.omniauth_providers.each do |provider| %>
+     <%- if (provider.to_s == "facebook") %>
+       <img src="/images/facebook.png" alt="Facebook">
+     <%- end %>
+    <%= link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider) %><br />
+  <% end -%>
+  </div>
+<% end -%>

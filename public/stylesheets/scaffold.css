@@ -1,0 +1,511 @@
+/* CSS for elucio 1.0 */
+/* Sorry, it's not pretty. */
+
+body {
+	background-color: rgb(53,159,251);
+	color: rgb(93,103,106);
+	font-family: arial; 
+	font-size: 100%;
+	text-align: center;
+        width: 930px;
+        min-width: 930px;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.header_popup {
+}
+
+.footer_popup {
+}
+
+.section_popup {
+}
+
+.body_popup {
+	background-color: rgb(53,159,251);
+        color: rgb(93,103,106);
+        font-family: arial;
+        font-size: 100%;
+        text-align: center;
+        width: 430px;
+        min-width: 430px;
+	height: 700px;
+	min-height: 700px;
+	float: left;
+	text-align: center;
+        margin: 0 auto;
+        padding: 0;
+}
+
+h1, h2, p, ul, li {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	list-style-type: none;
+}
+
+p {
+	font-size: 1.4em;
+	line-height: 1.4em;
+}
+
+header {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        width: 930px;
+	height: 29px;
+        display: block; 
+}
+
+header a:-webkit-any-link {
+	text-decoration: none;
+        color: rgb(208,229,238);
+}
+
+a:link {
+	text-decoration:none;
+        color: rgb(208,229,238);
+} 
+
+a:visited {
+	text-decoration:none;
+        color: rgb(208,229,238);
+} 
+
+header img {
+	float: left;
+	height: 25px;
+	padding: 0 20px;
+}
+
+div#menu {
+        float: left;
+        height: 23px;
+        text-align: left;
+        display:block;
+        line-height:25px;
+        font-weight:bold;
+        font-size: 15px;
+        text-shadow:0 -1px 0 rgba(0,0,0,0.2);
+        color: rgb(208,229,238);
+        background: rgb(93,103,106);
+	padding: 2px 2px;
+        opacity:.7;
+        text-decoration:none;
+        border:1px solid #2e4459;
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        -moz-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+        -webkit-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+        box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+}
+
+.menu-item {
+	padding: 10px 10px;
+}
+
+div#login {
+	float: right;
+	height: 23px;
+	text-align: right;
+	right: 0;
+	display:block;
+	line-height:25px;
+	font-weight:bold;
+	font-size: 15px;
+	text-shadow:0 -1px 0 rgba(0,0,0,0.2);
+        color: rgb(208,229,238);
+	background: rgb(93,103,106);
+	padding: 2px 2px;
+	opacity:.7;
+	text-decoration:none;
+	border:1px solid #2e4459;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	-moz-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+	-webkit-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+	box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+}
+
+div#login span div#current_user {
+	display: none;
+}
+
+.login {
+	font-size: 2.0em;
+        font-weight:bold
+}
+a:-webkit-any-link {
+	text-decoration: none;
+	color: rgb(93,103,106);
+}
+
+nav {
+	float: left;
+	width: 770px;
+	height: 29px;
+	font-size: 1.4em;
+}
+
+nav li {
+	display: inline;
+}
+
+nav li a:hover {
+	background-color: gray;
+}
+
+a#nav-home{
+	border-left: 0 solid gray;
+}
+
+body.home.index #nav-home,
+body.projects.index #nav-projects,
+body.tasks.index #nav-tasks,
+body.matrix #nav-matrix,
+body.support #nav-support,
+body.blog #nav-blog,
+body.faq #nav-faq,
+body.login.index #nav-app {
+        font-size: 133%;
+        color: #f0dc11;
+        color: rgb(250,182,10);
+}
+
+article {
+	padding: 0;
+	color: rgb(93,103,106);
+        font-family: arial;
+}
+
+article h2 {
+	font-size: 2em;
+	margin: 0 0 5px 0;
+}
+
+footer {
+	font-size: 1.0em;
+	text-align: center;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+	margin: 10px 0 10px 0;
+	clear: left;
+}
+
+footer a:-webkit-any-link {
+        text-decoration: none;
+        color: rgb(93,103,106);
+}
+
+footer a:link {
+        text-decoration:none;
+        color: rgb(93,103,106);
+}
+
+footer a:visited {
+        text-decoration:none;
+        color: rgb(93,103,106);
+}
+
+footer li {
+	display: inline;
+	padding: 10px 10px 10px 10px;
+}
+
+footer li a {
+        color: rgb(208,229,238);
+	text-decoration: none;
+}
+
+footer li a:hover {
+        color: rgb(208,229,238);
+	background-color: rgb(93,103,106);
+}
+
+div#legal {
+        text-align: left;
+}
+
+div#indexFrameContainer {
+	width: 930px;
+	height: 450px;
+}
+
+div#elucio_cloud img#sun {
+	width: 200px;
+	height: 200px;
+	float: left;
+	position:absolute;
+	z-index: 1;
+}
+
+div#elucio_cloud img#cloud {
+	width: 200px;
+	height: 200px;
+	float: left;
+	position:absolute;
+	z-index: 2;
+}
+
+img#logo {
+	float: left;
+        margin: 50px 0 0 200px;
+}
+
+div#faq {
+        margin: 30px 30px 30px 30px;
+        width: 600px;
+	text-align: left;
+}
+
+div#faq dt {
+        font-weight:bold;
+        font-size: 160%;
+}
+
+div#faq dd {
+        font-size: 120%;
+}
+
+/* not currently used */
+div#trybox {
+	clear: both;
+        float: left;
+        display:block;
+        height: 30px;
+        text-align: left;
+        position: relative;
+        top: 250px;
+ 	left: 50px;
+        line-height:27px;
+        font-weight:bold;
+        font-size: 15px;
+        text-shadow:0 -1px 0 rgba(0,0,0,0.2);
+        color: rgb(208,229,238);
+        background: rgb(93,103,106);
+	padding:0 12px;
+	margin: 12px;
+        opacity:.7;
+        text-decoration:none;
+        border:1px solid #2e4459;
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        -moz-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+        -webkit-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+        box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+}
+
+div#splash0 {
+	position: relative;
+	bottom: -400px;
+	left: -500px;
+        text-align: left;
+        line-height:32px;
+        font-weight:bold;
+        font-size: 30px;
+}
+
+div#splash1 {
+	float: right;
+	position: relative;
+	top: 300px;
+	left: 0px;
+        text-align: right;
+        line-height:32px;
+        font-weight:bold;
+        font-size: 30px;
+}
+
+div.splash1_points {
+	height: 32px;
+}
+
+div#bottom {
+	width: 930px;
+	height: 200px;
+        color: rgb(208,229,238);
+	font-size: 1.5em;
+        position: relative;
+}
+
+div#bottomInner {
+	width: 930px;
+	height: 200px;
+	display: block;
+        float: left;
+}
+
+div#bottom div#panel1 a:-webkit-any-link {
+        color: rgb(208,229,238);
+}
+
+div#bottom div#panel_cloud1 {
+        width: 400px;
+	height: 200px;
+        float: left;
+        background: rgb(93,103,106);
+        padding:0 12px;
+        margin: 12px 0 0 0;
+        opacity:.7;
+        text-decoration:none;
+        border:1px solid #2e4459;
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        -moz-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+        -webkit-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+        box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+}
+
+div#bottom div#panel1 {
+        display: block;
+        margin: 50px 0 0 20px;
+        text-align: left;
+        width: 390px;
+	height: 120px;
+}
+
+div#panel1row {
+	display: block;
+	height: 36px;
+}
+
+div#bottom div#panel_cloud2 {
+        width: 400px;
+	height: 200px;
+        float: right;
+        background: rgb(93,103,106);
+        padding:0 12px;
+        margin: 12px 0 0 0;
+        opacity:.7;
+        text-decoration:none;
+        border:1px solid #2e4459;
+        -moz-border-radius:6px;
+        -webkit-border-radius:6px;
+        border-radius:6px;
+        -moz-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+        -webkit-box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+        box-shadow:0 1px 0 rgba(255,255,255,0.15),0 1px 0 rgba(255,255,255,0.15) inset;
+}
+
+div#bottom div#panel2 {
+        display: block;
+        margin: 55px 0 0 20px;
+        text-align: left;
+        width: 330px;
+        height: 120px;
+}
+
+#toolbar {
+	padding: 13px 4px;
+}
+
+
+/* jquery.clockpick.1.2.9.css */
+#CP_hourcont {
+padding: 0px;
+position:absolute;
+border:1px dashed #bbbbbb;
+background-color:#dddddd;
+display:none;
+}
+
+#CP_minutecont {
+background-color:#dddddd;
+padding: 0px;
+position:absolute;
+width:45px;
+border: 1px dashed #cccccc;
+display:none;
+}
+
+.floatleft {
+float:left;
+}
+
+.CP_hour {
+padding:1px;
+font-family: Arial, Helvetica, sans-serif;
+font-size:9px;
+white-space:nowrap;
+cursor:pointer;
+width:35px;
+margin:1px;
+background-color:#eeeeee;
+}
+
+.CP_minute {
+padding:1px;
+background-color:#eeeeee;
+font-family: Arial, Helvetica, sans-serif;
+font-size:9px;
+white-space:nowrap;
+cursor:pointer;
+width:auto;
+margin:1px;
+}
+
+.CP_over {
+background-color:#ffffff;
+}
+#CP_hourcont {
+padding: 0px;
+position:absolute;
+border:1px dashed #bbbbbb;
+background-color:#dddddd;
+display:none;
+}
+
+#CP_minutecont {
+background-color:#dddddd;
+padding: 0px;
+position:absolute;
+width:45px;
+border: 1px dashed #cccccc;
+display:none;
+}
+
+.floatleft {
+float:left;
+}
+
+.CP_hour {
+padding:1px;
+font-family: Arial, Helvetica, sans-serif;
+font-size:9px;
+white-space:nowrap;
+cursor:pointer;
+width:35px;
+margin:1px;
+background-color:#eeeeee;
+}
+
+.CP_minute {
+padding:1px;
+background-color:#eeeeee;
+font-family: Arial, Helvetica, sans-serif;
+font-size:9px;
+white-space:nowrap;
+cursor:pointer;
+width:auto;
+margin:1px;
+}
+
+.CP_over {
+background-color:#ffffff;
+}
+
+
+/* jquery-ui-timepicker-addon.css */
+
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; }
+.ui-timepicker-div dl dd { margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }

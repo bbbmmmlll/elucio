@@ -1,0 +1,27 @@
+<h1>elucio matrix</h1>
+<div id="toolbar">
+  <script> jQuery(document).ready(function() { elucio.toolbar(); });</script>
+  <span id="toolbar" class="ui-widget-header ui-corner-all">
+    <button id="project_name"></button>
+    <button id="previous">previous project</button>
+    <button id="next">next project</button>
+    <button id="new">new project</button>
+    <button id="zoomin">zoomin</button>
+    <button id="zoomout">zoomout</button>
+    <button id="left">scroll left</button>
+    <button id="right">scroll right</button>
+    <button id="up">scroll up</button>
+    <button id="down">scroll down</button>
+    <button id="delete">delete project</button>
+  </span>
+</div>
+<div id="image_list">
+    <img id="image_alert" src="/images/alert.png" style="display:none">
+    <% @image_list.each do |obj| %>
+      <img id="image_<%= obj.id %>" src="<%= obj.fb_image %>" style="display:none">
+    <% end %>
+</div>
+<canvas id="matrix" width="720" height="720">
+  Please upgrade to the newer browser: Chrome, Firefox 5, Opera, Safari or IE9. Thanks!
+  <script> jQuery(document).ready(function() { elucio.init("matrix", 720, 720); });</script>
+</canvas>

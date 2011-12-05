@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Owner:</b>
+  <%= @project.owner %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @project.status %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @project.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @project.description %>
+</p>
+
+<p>
+  <b>Public flag:</b>
+  <%= @project.public_flag %>
+</p>
+
+<p>
+  <b>Group flag:</b>
+  <%= @project.group_flag %>
+</p>
+
+<p>
+  <b>Send email:</b>
+  <%= @project.send_email %>
+</p>
+
+<p>
+  <b>Send sms:</b>
+  <%= @project.send_sms %>
+</p>
+
+<p>
+  <b>Send facebook:</b>
+  <%= @project.send_facebook %>
+</p>
+
+<p>
+  <b>Assigned To:</b>
+  <%= @project.assigned_to %>
+</p>
+
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<%= link_to 'Back', projects_path %>

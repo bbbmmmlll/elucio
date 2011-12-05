@@ -1,0 +1,103 @@
+<%= form_for(@task) do |f| %>
+  <% if @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% @task.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if params["iframe"] == "true" %>
+    <input type="hidden" name="iframe" value="true">
+  <% end %>
+
+  <div class="name">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description, :rows => 6 %>
+  </div>
+  <div class="field">
+    <%= f.label :assigned_to %><br />
+    <%= f.collection_select :assigned_to, @users, :id, :email, { :selected => current_user.email } %>
+  </div>
+  <div class="date_due">
+    <label for="task_date_due">Date due</label><br />
+    <%= f.text_field :date_due %><br />
+    <script>$(function() { $( "#task_date_due" ).datetimepicker({
+                               ampm: true,
+                               showOn: "button",
+                               dateFormat: 'yy-mm-dd',
+		               buttonImage: "/images/calendar.gif",
+                        }); 
+            });
+    </script>
+  <div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.collection_select :status, @task_states, :state, :state, :prompt => "Select" %>
+  </div>
+
+  <div class="slider" style="padding: 20px;">
+  <label for="task_percent_complete">Percent Complete:</label>
+  <%= f.text_field :percent_complete, :maxlength => '4' %>
+  <div id="percent_complete" style="border:0;">
+        <script>
+	$(function() {
+		$( "#percent_complete" ).slider({
+			range: "min",
+			value: <%= @task.percent_complete %>,
+			min: 0,
+			max: 100,
+			slide: function( event, ui ) {
+				$( "#task_percent_complete" ).val( ui.value + "%" );
+			}
+		});
+		$( "#task_percent_complete" ).val( $( "#percent_complete" ).slider( "value" ) + "%" );
+	});
+	</script>
+    <br/>
+  </div>
+  </div>
+
+  <% if params["x"] %>
+    <% @task.matrix_x = params["x"] %>
+    <%= hidden_field(:task, :matrix_x) %>
+  <% else %>
+    <div class="field">
+      <%= f.label :matrix_x %><br />
+      <%= f.text_field :matrix_x %>
+    </div>
+  <% end %>
+  <% if params["y"] %>
+    <% @task.matrix_y = params["y"] %>
+    <%= hidden_field(:task, :matrix_y) %>
+  <% else %>
+    <div class="field">
+      <%= f.label :matrix_y %><br />
+      <%= f.text_field :matrix_y %>
+    </div>
+  <% end %>
+  <div class="field">
+    <% if current_user.current_project %>
+      <%= f.hidden_field :project_id, { :value => current_user.current_project } %>
+    <% else %>
+      <%= f.label :project_id %><br />
+      <%= f.collection_select :project_id, @projects, :id, :name, :prompt => "Select" %>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.hidden_field :owner, { :value => current_user.id } %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

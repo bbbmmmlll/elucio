@@ -1,0 +1,62 @@
+<%= form_for(@project) do |f| %>
+  <% if @project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+      <ul>
+      <% @project.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if params["iframe"] == "true" %>
+    <input type="hidden" name="iframe" value="true">
+  <% end %>
+
+  <div class="field">
+    <%= f.label :owner %><br />
+    <%= f.collection_select :owner, @users, :id, :email, :prompt => "Select" %>
+  </div>
+  </div>
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </div>
+  <div class="name">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :public_flag %><br />
+    <%= f.check_box :public_flag %>
+  </div>
+  <div class="field">
+    <%= f.label :group_flag %><br />
+    <%= f.check_box :group_flag %>
+  </div>
+  <div class="field">
+    <%= f.label :send_email %><br />
+    <%= f.check_box :send_email %>
+  </div>
+  <div class="field">
+    <%= f.label :send_sms %><br />
+    <%= f.check_box :send_sms %>
+  </div>
+  <div class="field">
+    <%= f.label :send_facebook %><br />
+    <%= f.check_box :send_facebook %>
+  </div>
+  <div class="field">
+    <%= f.label :assigned_to %><br />
+    <%= f.collection_select :assigned_to, @users, :id, :email, :prompt => "Select" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

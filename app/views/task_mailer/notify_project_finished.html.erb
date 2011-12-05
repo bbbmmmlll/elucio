@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Project <%= @task.name %> has been finished.</h1>
+    <p>
+      Please see <%= raw(auto_link url_for(:host => "elucio.com", :action=>"show", :controller=>"tasks", :id =>  @task.id)) %>
+    </p>
+    <p>Thanks and have a great day!</p>
+  </body>
+</html>

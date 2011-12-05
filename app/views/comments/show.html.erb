@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Owner:</b>
+  <%= @comment.owner %>
+</p>
+
+<p>
+  <b>Task owner:</b>
+  <%= @comment.task_owner %>
+</p>
+
+<p>
+  <b>Commenter:</b>
+  <%= @comment.commenter %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @comment.status %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%= @comment.body %>
+</p>
+
+<p>
+  <b>Public flag:</b>
+  <%= @comment.public_flag %>
+</p>
+
+<p>
+  <b>Group flag:</b>
+  <%= @comment.group_flag %>
+</p>
+
+<p>
+  <b>Task ID:</b>
+  <%= @comment.task_id %>
+</p>
+
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %>

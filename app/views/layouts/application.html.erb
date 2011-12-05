@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+
+<head>
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <meta charset="utf-8">
+  <title>elucio</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon"> 
+  <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+
+<body class="<%= controller.controller_name %> <%= controller.action_name %>">
+  <header>
+    <%- if user_signed_in? %>
+      <img alt="elucio logo" src="/images/elucio_logo_113.png" height="25" width="113"/>
+      <nav>
+        <div id="login">
+          <span>
+            <%- if user_signed_in? %>
+              <div id="current_user">
+            <%= "#{current_user.email}" %>
+              </div>
+              <%= link_to 'sign out', destroy_user_session_path %>
+            <%- else %>
+              <%= link_to "Sign in with Facebook", user_oauth_authorize_url(:facebook) %>
+            <%- end %>
+          </span>
+      </div>
+      <div id="menu">	
+        <ul>
+          <li><a title="elucio home" id="nav-home" class="menu-item" href="/">home</a></li>
+          <li><a title="matrix" id="nav-matrix" class="menu-item" href="/matrix">matrix</a></li>
+          <li><a title="faq" id="nav-faq" class="menu-item" href="/faq">faq</a></li>
+          <li><a title="blog" id="nav-blog" class="menu-item" href="http://blog.elucio.com">blog</a></li>
+          <li><a title="support" id="nav-support" class="menu-item" href="http://elucio.uservoice.com">support</a></li>
+        </ul>
+      </div>
+    <%- elsif controller.controller_name != "sessions" %>
+      <div id="login">
+        <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
+      </div>
+    <%- end %>
+    </nav>
+  </header>
+
+  <section>
+    <article id="article">
+      <%= yield %>
+    </article>
+  </section>
+
+  <footer>
+    <ul id="links">
+      <li><a title="elucio" href="/">elucio</a> &copy; 2011</li>
+      <li><a title="about" href="/about">about</a></li>
+      <li><a title="privacy" href="/privacy">privacy</a></li>
+      <li><a title="terms" href="/terms">terms</a></li>
+    </ul>
+  </footer>
+</body>
+
+</html>
