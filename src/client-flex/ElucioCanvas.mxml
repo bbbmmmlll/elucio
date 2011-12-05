@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="700" height="680" creationComplete="init()">
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script> <![CDATA[
+		import com.elucio.CellSprite;
+		import com.elucio.ElucioAddTask;
+		import com.elucio.Projects;
+		import com.elucio.Tasks;
+		
+		import flash.display.Graphics;
+		
+		import mx.collections.ArrayCollection;
+		import mx.controls.Button;
+		import mx.events.FlexEvent;
+		import mx.managers.PopUpManager;		
+		import spark.core.SpriteVisualElement;
+		import mx.binding.utils.ChangeWatcher;
+		
+		private var STATE_COLORS:Object = ({ Finished: "green", Ready: "blue", Started: "white", Behind: "yellow", Late: "red", Paused: "gray", Waiting: "brown" });
+		private var HEIGHT_TO_WIDTH_RATIO:Number = 0.6;
+		private var CELL_MARGIN:Number = 0.1;
+		private var CELL_BORDER:int = 1;
+		private var canvas_width:int = 700;
+		private var canvas_height:int = 680;
+		private var zoom:int = 0;
+		private var zoom_factor:int = 0;
+		private var matrix_width:int = 0;
+		private var matrix_height:int = 0;
+		private var cell_width:int = 0;
+		private var cell_height:int = 0;
+		private var cell_width_margin:int = 0;
+		private var cell_height_margin:int = 0;
+		private var current_project:int = 1;
+		private var current_task:int = 1;
+		private var addTaskPopup:ElucioAddTask;
+		
+		private var projects:ArrayCollection = Projects.get_instance().projects;
+		private var tasks:ArrayCollection = Tasks.get_instance().tasks;
+		
+		private var g:Graphics = graphics;
+		
+		private function init():void {
+			systemManager.addEventListener(MouseEvent.MOUSE_WHEEL, mouseWheelHandler);
+			addTaskPopup = new ElucioAddTask();
+			addTaskPopup.initialize();
+		}
+		
+		override protected function updateDisplayList(w:Number, h:Number):void {
+			
+			trace("draw() called");
+			super.updateDisplayList(w, h);
+
+			projects = Projects.get_instance().projects;
+			if (projects) {
+				for (var i:int = 0; i < projects.length; i++) {
+					trace("draw:projects:value: " + projects[i].name);
+				}
+			}
+			else {
+				trace("draw:projects:value: no projects");
+			}
+			
+			tasks = Tasks.get_instance().tasks;
+			if (tasks) {
+				for (var j:int = 0; j < tasks.length; j++) {
+					trace("draw:tasks:value: " + tasks[j].name);
+				}
+			}
+			else {
+				trace("draw:tasks:value: no tasks");
+			}		
+			
+			if (!tasks && !projects) return;
+			
+			this.adjust_sizes();
+			
+			if (this.g) {
+				g.clear();
+				this.removeAllElements();
+			}
+			
+			draw_matrix();
+			draw_tasks();
+		}
+		
+		private function adjust_sizes():void {
+			var max_coord:Object = get_project_matrix_size();
+			matrix_width = max_coord.x;
+			matrix_height = max_coord.y;
+			
+			if (zoom) {
+				zoom_factor += zoom;
+				CELL_BORDER += zoom;
+				if (CELL_BORDER < 0) CELL_BORDER = 0;
+				if (CELL_BORDER > 30) CELL_BORDER = 30;
+				zoom = 0;
+			}
+
+			cell_width = canvas_width / (matrix_width + CELL_BORDER + CELL_BORDER);
+			cell_height = (canvas_height / (matrix_height + CELL_BORDER + CELL_BORDER)) * HEIGHT_TO_WIDTH_RATIO;
+			cell_width_margin = cell_width * CELL_MARGIN;
+			cell_height_margin = cell_height * CELL_MARGIN;
+			trace("matrix_width = " + matrix_width + " matrix_height = " + matrix_height);
+			trace("cell_width = " + cell_width + " cell_height = " + cell_height);
+			trace("CELL_BORDER = " + CELL_BORDER + " CELL_MARGIN = " + CELL_MARGIN); 
+		}
+		
+		private function draw_matrix():void {
+			var cell_side_width:int = cell_width - (2 * cell_width_margin);
+			var cell_side_height:int = cell_height - (2 * cell_height_margin);
+			
+			var full_matrix_width:int = matrix_width + CELL_BORDER + CELL_BORDER;
+			var full_matrix_height:int = matrix_height + CELL_BORDER + CELL_BORDER;
+			
+			trace("ElucioCanvas:draw_matrix called()");
+			
+			var sve:SpriteVisualElement;
+			var mySprite:CellSprite;
+			
+			for (var w:int = 0; w < full_matrix_width; w++) {
+				for (var h:int = 0; h < full_matrix_height; h++) {
+					sve = new SpriteVisualElement();
+					mySprite = new CellSprite();
+					
+					mySprite.graphics.beginFill(0xcdc9c9);
+					mySprite.graphics.drawRoundRect(w * cell_width + cell_width_margin, h * cell_height + cell_height_margin, cell_side_width, cell_side_height, 60, 60);
+					mySprite.graphics.endFill();
+					mySprite.graphics.drawRect(x, y, cell_side_width, cell_side_height);
+					mySprite.graphics.endFill();
+					mySprite.task = new Object();
+					mySprite.task.matrix_x = w - CELL_BORDER;
+					mySprite.task.matrix_y = h - CELL_BORDER;
+					mySprite.addEventListener(MouseEvent.CLICK, cellAddTaskHandler);			
+					sve.addChild(mySprite);
+					this.addElement(sve);
+				}
+			}	
+		}
+		
+		private function draw_tasks():void {
+			var cell_side_width:int = cell_width - (2 * cell_width_margin);
+			var cell_side_height:int = cell_height - (2 * cell_height_margin);
+			
+			trace("cell_side_width = " + cell_side_width + " cell_side_height = " + cell_side_height);
+			trace("cell_width_margin = " + cell_width_margin + " cell_height_margin = " + cell_height_margin);
+
+			if (!tasks) {
+				return;
+			}
+			
+			var textfield:TextField = new TextField;
+			var bitmapdata:BitmapData = new BitmapData(cell_side_width, cell_side_height, true, 0x00000000);
+			var sve:SpriteVisualElement;
+			var mySprite:CellSprite;
+			
+			for (var i:int = 0; i < tasks.length; i++) {
+				
+				if (tasks[i].project_id != current_project) {
+					continue;
+				}
+				
+				var x:int = (tasks[i].matrix_x + CELL_BORDER) * cell_width + cell_width_margin;
+				var y:int = (tasks[i].matrix_y + CELL_BORDER) * cell_height + cell_height_margin;
+				// TODO: not very efficent, but to save them somewhere are resuse
+				sve = new SpriteVisualElement();
+				mySprite = new CellSprite();
+				
+				textfield.text = "id = " + tasks[i].id;
+				
+				var task_state:String = tasks[i].status;
+				
+				if (!task_state) {
+					task_state = "Open";
+				}
+				
+				mySprite.graphics.beginFill(0x00ff00);
+				mySprite.graphics.drawRoundRect(x, y, cell_side_width, cell_side_height, 60, 60);
+				mySprite.graphics.endFill();
+				bitmapdata.draw(textfield);				
+				mySprite.graphics.beginBitmapFill(bitmapdata);
+				mySprite.graphics.drawRect(x, y, cell_side_width, cell_side_height);
+				mySprite.graphics.endFill();
+				mySprite.task = tasks[i];
+				mySprite.addEventListener(MouseEvent.CLICK, function(event:MouseEvent):void {
+					var sprite:CellSprite = mySprite;
+					cellClickHandler(event, sprite);
+				});
+				sve.addChild(mySprite);
+				this.addElement(sve);
+				
+				//shape.attr({fill: this.STATE_COLORS[task_state], stroke: this.STATE_COLORS[task_state], "fill-opacity": 50, "stroke-width": 2, cursor: "move"});		
+
+			}			
+		}
+		
+		private function get_project_matrix_size():Object {
+			var max_x:int = 0;
+			var max_y:int = 0;
+			
+			var current_project:int = get_current_project();
+			trace("current_project = " + current_project);
+			
+			if (!tasks) {
+				return {x: 0, y:0};
+			}
+			
+			for (var i:int = 0; i < tasks.length; i++) {
+				
+				if (tasks[i].project_id != current_project) {
+					continue;
+				}
+				
+				if (tasks[i].matrix_x > max_x) {
+					max_x = tasks[i].matrix_x;
+				}
+				if (tasks[i].matrix_y > max_y) {
+					max_y = tasks[i].matrix_y;
+				}
+			}
+			
+			// adjust for zero based index
+			max_x++;
+			max_y++;
+			
+			return {x: max_x, y: max_y};	
+		}
+		
+		private function get_current_project():int {
+			import flash.net.SharedObject;
+			
+			var sharedObj:SharedObject = SharedObject.getLocal("elucio");
+			var project_id:int = 0;
+			
+			tasks = Tasks.get_instance().tasks;
+			
+			if (sharedObj.size > 0) {
+				project_id = sharedObj.data.current_project;
+				trace("get_current_project:project_id = " + project_id);
+			}
+			
+			// check if that project still exists
+			if (project_id > 0) {
+				for (var i:int = 0; i < tasks.length; i++) {
+					if (tasks[i].project_id == project_id) {
+						trace("get_current_project:project_id = " + project_id);
+						current_project = project_id;
+						return project_id;
+					}
+				}
+			}
+			
+			// no project id or a stale id so pick the first good project id
+			if (tasks) {
+				for (var j:int = 0; j < tasks.length; j++) {
+					trace("get_curren_project:tasks:value: " + tasks[j].project_id);
+					project_id = tasks[j].project_id;
+				}
+
+			}
+			else {
+				project_id = 0; // no projects or tasks found
+			}
+			
+			current_project = project_id;
+			sharedObj.data.current_project = project_id;
+			sharedObj.flush();
+			
+			return project_id;
+		}
+		
+		private function cellClickHandler(event:MouseEvent, sprite:CellSprite):void {
+			trace("sprite clicked: x = " + sprite.task.matrix_x + " y = " + sprite.task.matrix_y);
+		}
+		
+		private function cellAddTaskHandler(event:MouseEvent):void {		
+			trace("sprite clicked: x = " + event.target.task.matrix_x + " y = " + event.target.task.matrix_y);
+			addTaskPopup.button_cancel.addEventListener(MouseEvent.CLICK, cellCancelAddTask);
+			PopUpManager.addPopUp(addTaskPopup, this, true);
+			PopUpManager.centerPopUp(addTaskPopup);
+		}
+		
+		public function cellCancelAddTask(event:MouseEvent):void {
+			PopUpManager.removePopUp(addTaskPopup);
+		}
+		
+		private function mouseWheelHandler(event:MouseEvent):void {
+			trace("mousewheel = " + event.delta);
+			zoom = zoom + event.delta;
+			invalidateDisplayList();
+		}
+		
+	]]> </fx:Script>
+	<mx:Canvas>
+		
+	</mx:Canvas>
+</s:Group>

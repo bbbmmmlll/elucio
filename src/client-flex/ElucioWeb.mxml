@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:ns1="*"
+			   width="720" height="750" backgroundColor="0x359ffb" creationComplete="init()"
+			   currentState="canvas_view" pageTitle="elucio projects">
+	
+	<fx:Style source="ElucioWeb.css"/>
+	
+	<s:states>
+		<s:State name="canvas_view"/>
+		<s:State name="projects_view"/>
+		<s:State name="tasks_view"/>
+	</s:states>
+	
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	
+	<fx:Script> <![CDATA[
+		import com.elucio.Projects;
+		import com.elucio.Tasks;
+		
+		import mx.collections.ArrayCollection;
+		import mx.events.FlexEvent;
+		import mx.events.CollectionEvent;
+
+		public var user_projects:Object;
+		public var user_tasks:Object;
+		
+		[Bindable]
+		public var version:String = "0.0.31";
+		
+		private function init():void {
+			trace("build: "+ version);
+			trace("init() called");
+			user_projects = Projects.get_instance();
+			user_tasks = Tasks.get_instance();
+		}
+
+		public function load_resources():void {
+			user_projects.load_projects();	
+		}
+		
+		protected function getFriends(event:MouseEvent):void {
+			// TODO Auto-generated method stub			
+		}		
+		
+	]]> </fx:Script>
+	
+	<s:Button id="button_c" x="512" y="10" width="32" height="32" label="C"
+			  click="currentState='canvas_view'" fontSize="16" fontWeight="bold"/>
+	<s:Button id="button_p" x="552" y="10" width="32" height="32" label="P"
+			  click="currentState='projects_view'" fontSize="16" fontWeight="bold"/>
+	<s:Button id="button_t" x="592" y="10" width="32" height="32" label="T"
+			  click="currentState='tasks_view'" fontSize="16" fontWeight="bold"/>
+	
+	<s:Button id="button_project_new" x="10" y="10" width="32" height="32" label="+" fontSize="16"
+			  fontWeight="bold" click="e_canvas.invalidateDisplayList()"/>
+	<s:Button id="button_project_left" x="50" y="10" width="32" height="32" label="&lt;"
+			  fontSize="16" fontWeight="bold"/>
+	<s:Button id="button_project_right" x="90" y="10" width="32" height="32" label="&gt;"
+			  fontSize="16" fontWeight="bold"/>
+	
+	<s:TextArea id="text_project_name" x="130" y="10" width="365" height="32"
+				contentBackgroundColor="#ECEAEA" editable="true" fontSize="18" fontWeight="bold"
+				verticalAlign="middle"/>
+	<s:TextArea id="build_number" x="630" y="731" width="90" height="19" borderVisible="false" color="black"
+				contentBackgroundColor="#359FFB" enabled="true" text="{version}"
+				textAlign="center"/>
+	<s:TextArea id="text_status" x="5" y="731" width="48" height="19" borderVisible="false"
+				contentBackgroundColor="#359FFB" text="status:"/>
+	<s:TextArea id="text_status_msg" x="52" y="731" width="420" height="19" borderVisible="false"
+				contentBackgroundColor="#359FFB" editable.canvas_view="false"/>
+	
+	<ns1:ElucioCanvas id="e_canvas" includeIn="canvas_view" x="10" y="50">
+	</ns1:ElucioCanvas>
+	<ns1:ElucioProjects id="e_projects" includeIn="projects_view" x="10" y="50" width="700" height="690">
+	</ns1:ElucioProjects>
+	<ns1:ElucioTasks id="e_tasks" includeIn="tasks_view" x="10" y="50" width="700" height="690">
+	</ns1:ElucioTasks>
+	
+</s:Application>
